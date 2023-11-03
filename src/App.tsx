@@ -11,6 +11,7 @@ import AuthGuard from './pages/Auth/AuthGuard';
 import Dashboard from './pages/Dashboard';
 import { localStorageKeys } from './utils/constants';
 import Register from './pages/Auth/Register';
+import { getUser } from './services/userServices';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -26,12 +27,13 @@ function App() {
 
 
   useEffect(() => {
-    // if(isAuthenticated)
-    let token = localStorage.getItem(localStorageKeys.mediaHub_AccessToken);
-    if (token) {
-      // let servicee
-    }
-    // localStorage.get
+    (async () => {
+      let token = localStorage.getItem(localStorageKeys.mediaHub_AccessToken);
+      if (token) {
+        let test = await getUser();
+        console.log(test);
+      }
+    })()
   }, [])
 
 

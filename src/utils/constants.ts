@@ -1,6 +1,6 @@
 export const API_URLS = {
-    login: "/login",
-    Login: "/Login"
+    Login: "/login",
+    Register: "/register"
 }
 
 export const localStorageKeys = {

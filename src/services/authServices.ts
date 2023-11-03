@@ -16,7 +16,8 @@ type responseType = {
     message: string
 }
 
-const loginUrl = authBaseURL + API_URLS.login;
+const loginUrl = authBaseURL + API_URLS.Login;
+const registerURL = authBaseURL + API_URLS.Register
 
 //Axios Request Handler
 authInstance.interceptors.request.use(
@@ -33,7 +34,7 @@ authInstance.interceptors.response.use(
     //Success
     function (config) {
         let urls = config.config.url;
-        if (urls?.includes(API_URLS.login)) {
+        if (urls?.includes(API_URLS.Login)) {
             if (config.status == 200) {
                 showSuccessMessage("LoginSuccessFully")
             }
@@ -63,6 +64,6 @@ export const LoginService = async (body: any): Promise<responseType> => {
 };
 
 export const RegisterService = async (body: any): Promise<responseType> => {
-    const loginResponse = await authInstance.post(loginUrl, body);
+    const loginResponse = await authInstance.post(registerURL, body);
     return loginResponse.data;
 };
