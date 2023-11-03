@@ -1,6 +1,6 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import React, { ReactHTML, useState } from "react";
-import { loginService } from "../../services/authServices";
+import { LoginService } from "../../services/authServices";
 import { useDispatch } from 'react-redux';
 import { save_user, show_Notification } from "../../store/actions/userActions";
 import { localStorageKeys } from '../../utils/constants';
@@ -22,11 +22,10 @@ function Login() {
 
     async function handleLogin(e: React.MouseEvent<HTMLElement>) {
         e.preventDefault();
-        const result = await loginService(authCredential);
+        const result = await LoginService(authCredential);
         // console.log("handleLogin--->", result);
         if (result?.success) {
-            localStorage.setItem(localStorageKeys.isAuthenticated, "true");
-            
+            localStorage.setItem(localStorageKeys.mediaHub_AccessToken, result.data.accessToken);
             dispatch(save_user(result.data));
             // dispatch(show_Notification())
         }

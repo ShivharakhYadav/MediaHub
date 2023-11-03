@@ -11,9 +11,9 @@ const AuthGuard = ({ component }: { component: any }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      pathName === '/' && navigate('/dashboard');
+      pathName === '/login' && navigate('/');
     } else {
-      pathName !== '/' && navigate('/');
+      pathName !== '/login' && navigate('/login');
     }
   }, [component]);
 

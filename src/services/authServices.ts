@@ -57,10 +57,12 @@ authInstance.interceptors.response.use(
 )
 
 
+export const LoginService = async (body: any): Promise<responseType> => {
+    const loginResponse = await authInstance.post(loginUrl, body);
+    return loginResponse.data;
+};
 
-
-
-export const loginService = async (body: any): Promise<responseType> => {
+export const RegisterService = async (body: any): Promise<responseType> => {
     const loginResponse = await authInstance.post(loginUrl, body);
     return loginResponse.data;
 };

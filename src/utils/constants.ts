@@ -4,5 +4,6 @@ export const API_URLS = {
 }
 
 export const localStorageKeys = {
-    isAuthenticated: "isAuthenticated"
+    isAuthenticated: "isAuthenticated",
+    mediaHub_AccessToken: "mediaHub_AccessToken"
 }
