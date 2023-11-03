@@ -1,0 +1,11 @@
+const providersConstant = {
+    SAVE_USER: 'SAVE_USER',
+    FOLLOWING_POSTS: 'FOLLOWING_POSTS',
+    UPDATE_USER: "UPDATE_USER",
+    CHANGE_NOTIFICATION_STATUS: 'CHANGE_NOTIFICATION_STATUS',
+    FOLLOW_ACCEPTED: 'FOLLOW_ACCEPTED',
+    NEW_POST: 'NEW_POST',
+    Notification: "NOTIFICATION",
+    LOGOUT: "LOGOUT"
+}
+export default providersConstant;

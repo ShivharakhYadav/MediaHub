@@ -1,7 +1,13 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import React, { ReactHTML, useState } from "react";
-import { loginService } from "../services/authServices";
-function Register() {
+import { loginService } from "../../services/authServices";
+import { useDispatch } from 'react-redux';
+import { save_user, show_Notification } from "../../store/actions/userActions";
+import { localStorageKeys } from '../../utils/constants';
+
+function Login() {
+    const dispatch = useDispatch();
+
     const [authCredential, setAuthCredential] = useState({
         email: "",
         password: ""
@@ -16,9 +22,14 @@ function Register() {
 
     async function handleLogin(e: React.MouseEvent<HTMLElement>) {
         e.preventDefault();
-        const result = await loginService(authCredential)
-        console.log(result);
-        
+        const result = await loginService(authCredential);
+        // console.log("handleLogin--->", result);
+        if (result?.success) {
+            localStorage.setItem(localStorageKeys.isAuthenticated, "true");
+            
+            dispatch(save_user(result.data));
+            // dispatch(show_Notification())
+        }
     }
 
     return <>
@@ -32,4 +43,4 @@ function Register() {
     </>
 }
 
-export default Register;
+export default Login;

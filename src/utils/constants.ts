@@ -1,6 +1,8 @@
-const API_URLS = {
+export const API_URLS = {
     login: "/login",
-    register: "/register"
+    Login: "/Login"
 }
 
-export default API_URLS; 
+export const localStorageKeys = {
+    isAuthenticated: "isAuthenticated"
+}
