@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard';
 import { localStorageKeys } from './utils/constants';
 import Register from './pages/Auth/Register';
 import { getUser } from './services/userServices';
+import { jwtDecode } from 'jwt-decode';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -29,9 +30,11 @@ function App() {
   useEffect(() => {
     (async () => {
       let token = localStorage.getItem(localStorageKeys.mediaHub_AccessToken);
+      console.log("token--->", token)
       if (token) {
-        let test = await getUser();
-        console.log(test);
+        let decoded = jwtDecode(token) as any;
+        let test = await getUser(decoded?._id);
+        // console.log(test);
       }
     })()
   }, [])

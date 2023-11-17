@@ -26,6 +26,7 @@ function Login() {
         // console.log("handleLogin--->", result);
         if (result?.success) {
             localStorage.setItem(localStorageKeys.mediaHub_AccessToken, result.data.accessToken);
+            localStorage.setItem(localStorageKeys.mediaHub_RefreshToken, result.data.refreshToken);
             dispatch(save_user(result.data));
             // dispatch(show_Notification())
         }
