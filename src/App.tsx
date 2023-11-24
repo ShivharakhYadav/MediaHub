@@ -6,7 +6,6 @@ import { save_user, showLoading, show_Notification } from './store/actions/userA
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import AuthGuard from './pages/Auth/AuthGuard';
 import Dashboard from './pages/Dashboard';
 import { localStorageKeys } from './utils/constants';
@@ -14,6 +13,8 @@ import Register from './pages/Auth/Register';
 import { getUser } from './services/userServices';
 import { jwtDecode } from 'jwt-decode';
 import Loading from './components/Loading';
+import 'react-toastify/dist/ReactToastify.css';
+import "./App.css";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,

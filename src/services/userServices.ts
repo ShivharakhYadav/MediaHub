@@ -1,6 +1,6 @@
 import Axios, { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
 import { API_URLS, localStorageKeys } from '../utils/constants';
-import { environment } from '../configration/environment';
+import environment  from '../configration/environment';
 
 const userBaseURL = environment.baseURL + "/user";
 

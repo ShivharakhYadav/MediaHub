@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { environment } from '../configration/configIndex';
+import  environment  from '../configration/environment';
 import { API_URLS } from "../utils/constants";
 import store from "../store/store";
 import { show_Notification } from "../store/actions/userActions";
