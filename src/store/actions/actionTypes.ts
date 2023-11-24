@@ -6,6 +6,7 @@ const providersConstant = {
     FOLLOW_ACCEPTED: 'FOLLOW_ACCEPTED',
     NEW_POST: 'NEW_POST',
     Notification: "NOTIFICATION",
-    LOGOUT: "LOGOUT"
+    LOGOUT: "LOGOUT",
+    LOADING:"LOADING"
 }
 export default providersConstant;

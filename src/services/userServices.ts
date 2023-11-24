@@ -48,10 +48,9 @@ userInstance.interceptors.response.use(
                     Authorization: `Bearer ${token}`,
                 }
             });
-            const result = await JSON.parse(res as any);
-            console.log("result refresh--->", result)
-            // setToken(data.data.accessToken);
-
+            const result = await res.json()
+            localStorage.setItem(localStorageKeys.mediaHub_AccessToken, result.data.accessToken);
+            localStorage.setItem(localStorageKeys.mediaHub_RefreshToken, result.data.refreshToken);
             return userInstance(originalConfig);
         }
         return Promise.reject(error.response);
@@ -62,9 +61,9 @@ export const getUser = async (id: string): Promise<resposneType> => {
     try {
         let url = `${userBaseURL}/user/${id}`;
         const result = await userInstance.get(url);
-        return result.data;
+        return result?.data;
     } catch (error: any) {
-        console.error("Error get user-->", error.data);
-        return error.data;
+        console.error("Error get user-->", error?.data);
+        return error?.data;
     }
 }

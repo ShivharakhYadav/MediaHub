@@ -5,8 +5,12 @@ export const save_user = (payload: any) => ({
     payload: payload
 })
 
-
 export const show_Notification = (payload: any) => ({
     type: providersConstant.Notification,
+    payload: payload
+})
+
+export const showLoading = (payload: Boolean) => ({
+    type: providersConstant.LOADING,
     payload: payload
 })

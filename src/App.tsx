@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import Login from './pages/Auth/Login';
-import { show_Notification } from './store/actions/userActions';
+import { save_user, showLoading, show_Notification } from './store/actions/userActions';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { ToastContainer } from 'react-toastify';
@@ -13,6 +13,7 @@ import { localStorageKeys } from './utils/constants';
 import Register from './pages/Auth/Register';
 import { getUser } from './services/userServices';
 import { jwtDecode } from 'jwt-decode';
+import Loading from './components/Loading';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -24,16 +25,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state: any) => state?.isAuthenticated);
-
-
-
+  console.log("isAuthenticated App--->", isAuthenticated)
   useEffect(() => {
     (async () => {
       let token = localStorage.getItem(localStorageKeys.mediaHub_AccessToken);
       console.log("token--->", token)
-      if (token) {
+      if (token !== "undefined" && token) {
+        dispatch(showLoading(true))
         let decoded = jwtDecode(token) as any;
         let test = await getUser(decoded?._id);
+        dispatch(save_user(test));
+        dispatch(showLoading(false))
         // console.log(test);
       }
     })()
@@ -43,8 +45,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path='/login' element={<AuthGuard component={<Login />} />} />
+        {/* <Route path="/register" element={<Register />} /> */}
+        <Route path='/register' element={<AuthGuard component={<Register />} />} />
         {/* <Route index element={<Home />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
@@ -55,6 +59,7 @@ function App() {
 
       </Routes>
       <ToastContainer limit={3} />
+      <Loading />
     </BrowserRouter>
   );
 }
