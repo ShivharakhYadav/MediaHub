@@ -35,7 +35,10 @@ function App() {
         dispatch(showLoading(true))
         let decoded = jwtDecode(token) as any;
         let test = await getUser(decoded?._id);
-        dispatch(save_user(test));
+        console.log("test--->",test)
+        if (test?.success) {
+          dispatch(save_user(test));
+        }
         dispatch(showLoading(false))
         // console.log(test);
       }
