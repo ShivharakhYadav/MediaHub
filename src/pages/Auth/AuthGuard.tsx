@@ -13,7 +13,11 @@ const AuthGuard = ({ component }: { component: any }) => {
     if (isAuthenticated) {
       pathName === '/login' && navigate('/');
     } else {
-      pathName !== '/login' && navigate('/login');
+      if (pathName === "/register") {
+        navigate('/register');
+      } else {
+        pathName !== '/login' && navigate('/login');
+      }
     }
   }, [component]);
 

@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @mui/styles
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js -add
 
 PATH: 
-  C:\Users\Shivharakh Yadav\AppData\Local\cloud-code\installer\google-cloud-sdk\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\Yarn\bin\;C:\Users\Shivharakh Yadav\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Shivharakh Yadav\AppData\Local\Microsoft\WindowsApps;C:\Users\Shivharakh Yadav\AppData\Local\GitHubDesktop\bin;C:\Users\Shivharakh Yadav\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Sophos\Sophos SSL VPN Client\bin;C:\Users\Shivharakh Yadav\.dotnet\tools;C:\Users\Shivharakh Yadav\AppData\Local\Programs\Fiddler;C:\Users\Shivharakh Yadav\AppData\Local\Yarn\bin;C:\Users\Shivharakh Yadav\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Shivharakh Yadav\AppData\Roaming\npm
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Users\Dell\AppData\Local\Microsoft\WindowsApps;C:\Users\Dell\AppData\Local\Programs\Microsoft VS Code\bin;C:\ProgramData\Dell\GitHubDesktop\bin;C:\Users\Dell\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Dell\AppData\Roaming\npm;C:\Users\Dell\AppData\Local\Yarn\bin
 
 Yarn version: 
   1.22.19
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.14.18.tgz: ESOCKETTIMEDOUT
+  Error: https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.14.19.tgz: ESOCKETTIMEDOUT
       at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141517:19)
       at Object.onceWrapper (node:events:627:28)
       at ClientRequest.emit (node:events:513:28)
@@ -35,6 +35,7 @@ npm manifest:
       "@emotion/styled": "^11.11.0",
       "@mui/icons-material": "^5.14.16",
       "@mui/material": "^5.14.14",
+      "@mui/styles": "^5.14.18",
       "@reduxjs/toolkit": "^1.9.7",
       "@testing-library/jest-dom": "^5.17.0",
       "@testing-library/react": "^13.4.0",
