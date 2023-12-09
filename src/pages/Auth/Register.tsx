@@ -6,7 +6,7 @@ import { save_user, show_Notification } from "../../store/actions/userActions";
 import { localStorageKeys } from '../../utils/constants';
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import CustomTextField from "../../components/inputBox";
+import CustomTextField from "../../components/InputBox";
 import { RegisterFormTypes } from "../../interfaces/FormInterface";
 
 

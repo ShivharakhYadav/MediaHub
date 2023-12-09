@@ -8,3 +8,8 @@ export interface RegisterFormTypes {
     password: string;
     username: string
 }
+export interface PostFormTypes {
+    email: string;
+    password: string;
+    username: string
+}

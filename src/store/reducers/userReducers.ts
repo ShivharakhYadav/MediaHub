@@ -29,7 +29,7 @@ const userReducer = (state: initialType = initialState, { type, payload }: paylo
                 ...state,
                 isAuthenticated: true,
                 user: payload,
-                notificationMessage: "Login SuccessFully"
+                notificationMessage: "Login Successful"
             };
             return state = saveUser;
 
