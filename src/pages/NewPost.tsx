@@ -1,26 +1,33 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, IconButton, TextField, Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from "swiper/react";
-// import { Pagination, Navigation, Autoplay } from "swiper";
-// import { newPostURL } from '../services/Links';
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { Navigation } from 'swiper/modules';
 import { useSelector } from 'react-redux';
-// Import Swiper styles
-
+import './styles.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    // width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    // border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    // p: 4,
+    borderRadius: "10px",
+    maxHeight: "898px",
+    maxWidth: "64vh",
+    minHeight: "391px",
+    minWidth: "348px",
+    width: "461px",
+    height: "64vh",
+    outline: 0
 };
 
 // const breakpoints = {
@@ -46,16 +53,21 @@ const style = {
 //     },
 // };
 
+
+
 interface newPost {
     files: Array<Blob>,
     caption: string
 }
+
+type headerType = "Create Post" | "Adjust";
 export default function BasicModal() {
+    const [headerTitle, setHeaderTitle] = useState<headerType>("Create Post");
     const providerState = useSelector((state: any) => state?.providerReducer?.user);
     const [open, setOpen] = useState<boolean>(true);
     const handleClose = () => setOpen(false);
     const [displayImage, setDisplayImage] = useState<Array<string>>([]);
-    const [activeScreen, setActiveScreen] = useState(1);
+    const [activeScreen, setActiveScreen] = useState(3);
     const [postBody, setPostBody] = useState<newPost>({
         files: [],
         caption: ""
@@ -74,6 +86,8 @@ export default function BasicModal() {
         if (htmlImageDisplay.length > 0) {
             setPostBody({ ...postBody, files: fileArray })
             setDisplayImage(htmlImageDisplay);
+            setActiveScreen(2)
+            setHeaderTitle("Adjust")
         }
     }
 
@@ -109,68 +123,88 @@ export default function BasicModal() {
     return (
         <div>
             <Modal
-                open={open}
+                open={true}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    {activeScreen == 1 && <TextField variant='filled' type={'file'} onChange={handleFileSelect} inputProps={{ multiple: true }} onClick={(e: any) => e.target.value = null} />}
-                    <div>
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <IconButton
+                            sx={{ visibility: activeScreen === 1 ? "hidden" : "visible" }}
+                            onClick={() => {
+                                setActiveScreen(1);
+                                setHeaderTitle("Create Post")
+                            }}
+                        >
+                            <ArrowBackIcon />
+                        </IconButton>
+                        <Typography variant='h6' align='center'>{headerTitle}</Typography>
+                        <Button
+                            sx={{ visibility: activeScreen === 1 ? "hidden" : "visible" }}
+                            onClick={() => {
+                                setHeaderTitle("Create Post");
+                                setActiveScreen(3)
+                            }}>
+                            Share
+                        </Button>
+                    </Box>
+                    <Divider sx={{ backgroundColor: "black" }} />
+                    <Box>
                         {
-                            activeScreen == 1 && <>
-                                {
-                                    (displayImage?.length > 0 && displayImage) && <div>
-                                        {DisplayDomImage(displayImage)}
-                                        <br />
-                                    </div>
-                                }
-                                {displayImage?.length > 0 && <Button variant='contained' onClick={() => setActiveScreen(2)}>Next</Button>}
-                            </>
-                        }
-                    </div>
-                    <br />
-                    <div>
-                        {activeScreen == 2 && <>
-                            <Box>
-                                <img alt='img' src={displayImage[0]} width='20%' />
+                            activeScreen == 1 &&
+                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+                                <Button
+                                    variant="contained"
+                                    component="label"
+                                >
+                                    Upload File
+                                    <input
+                                        type="file"
+                                        accept="image/png, image/gif, image/jpeg"
+                                        multiple
+                                        hidden
+                                        onChange={handleFileSelect}
+                                    />
+                                </Button>
                             </Box>
-                            <TextField
-                                variant='outlined'
-                                placeholder='caption'
-                                value={postBody?.caption}
-                                onChange={(e: any) => { setPostBody({ ...postBody, caption: e.target.value }) }} />
-                            <Button variant='contained' onClick={handleSubmit}>Submit</Button>
-                        </>
                         }
-
-                    </div>
+                        <Box>
+                            {
+                                activeScreen == 2 && <>
+                                    {
+                                        (displayImage?.length > 0 && displayImage) && <div>
+                                            {DisplayDomImage(displayImage, postBody.files)}
+                                            <br />
+                                        </div>
+                                    }
+                                </>
+                            }
+                        </Box>
+                    </Box>
+                    <Box>
+                        <TextField
+                            variant='outlined'
+                            placeholder='caption'
+                        />
+                        <Button onClick={handleSubmit}>Submit</Button>
+                    </Box>
                 </Box>
             </Modal>
         </div>
     );
 }
 
-function DisplayDomImage(images: Array<String>) {
-    return <Swiper
-        // breakpoints={breakpoints}
-        speed={300}
-        slidesPerView="auto"
-        slidesPerGroup={1}
-        loop={images.length > 1 ? true : false}
-        pagination={{
-            clickable: true,
-        }}
-        autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-        }}
-        navigation={images.length > 1 ? true : false}
-    // modules={[Pagination, Navigation]}
-    >
-        {images.map((singleImages: any, i: any) => {
-            return <SwiperSlide key={i}>
-                <img height={'200px'} title={`${i}`} alt={`${i}`} src={singleImages} />
+function DisplayDomImage(images: Array<String>, originalFile: any) {
+    console.log("images--->", images,)
+    return <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+        {images?.map((singleImages: any, i: any) => {
+            return <SwiperSlide key={`SliderImage - ${originalFile[i]["name"]}`}>
+                <img
+                    title={originalFile[i]["name"]}
+                    alt={originalFile[i]["name"]}
+                    src={singleImages}
+                />
             </SwiperSlide>
         })}
     </Swiper>
@@ -192,7 +226,7 @@ const convertToBase64 = (file: any) => {
 // import { Box, TextField, Typography } from '@mui/material';
 // import { useState } from 'react'
 // import { useSelector } from 'react-redux';
-// import { newPostURL } from '../services/Links';
+// // import { newPostURL } from '../services/Links';
 
 // function NewPost() {
 //     const providerState = useSelector((state: any) => state?.providerReducer?.user);
@@ -215,7 +249,7 @@ const convertToBase64 = (file: any) => {
 
 //         data.append("img", imgsend);
 //         try {
-//             const url = `${newPostURL}?userid=${id}`
+//             const url = `dddddddd?userid=${id}`
 //             fetch(url, {
 //                 method: "POST",
 //                 body: data
@@ -256,3 +290,57 @@ const convertToBase64 = (file: any) => {
 //         };
 //     });
 // };
+
+
+
+
+
+
+
+
+// <Box sx={style}>
+//     <Box>
+//         {
+//             activeScreen == 1 &&
+//             <TextField
+//                 variant='filled'
+//                 type={'file'}
+//                 onChange={handleFileSelect}
+//                 inputProps={{ multiple: true }}
+//                 onClick={(e: any) => e.target.value = null}
+//             />
+//         }
+//     </Box>
+//     <Box>
+//         {
+//             activeScreen == 2 && <>
+//                 {
+//                     (displayImage?.length > 0 && displayImage) && <div>
+//                         {DisplayDomImage(displayImage)}
+//                         <br />
+//                     </div>
+//                 }
+//             </>
+//         }
+//     </Box>
+//     <div>
+
+//     </div>
+//     <br />
+//     <div>
+//         {activeScreen == 2 &&
+//             <>
+//                 <Box>
+//                     <img alt='img' src={displayImage[0]} width='20%' />
+//                 </Box>
+//                 <TextField
+//                     variant='outlined'
+//                     placeholder='caption'
+//                     value={postBody?.caption}
+//                     onChange={(e: any) => { setPostBody({ ...postBody, caption: e.target.value }) }} />
+//                 <Button variant='contained' onClick={displaySelectedFiles}>Submit</Button>
+//             </>
+//         }
+
+//     </div>
+// </Box>

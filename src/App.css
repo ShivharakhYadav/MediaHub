@@ -5,3 +5,7 @@ body {
     box-sizing: border-box;
     height: 100%;
 }
+
+.MuiButtonBase-root {
+    text-transform: capitalize !important;
+}

@@ -1,22 +1,23 @@
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Box, Toolbar, AppBar } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import NewPost from "./NewPost";
+import Header from "../components/Header";
+
 
 function Dashboard() {
+    const { control, handleSubmit } = useForm();
 
+    const handlePostSubmit = (data: any) => {
+
+    }
+
+    function fileHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        console.log(e.target.files)
+    }
     return (
         <>
-            <h1>Dashboard</h1>
-            <Button
-                variant="contained"
-                component="label"
-            >
-                Upload File
-                <input
-                    type="file"
-                    accept="image/png, image/gif, image/jpeg"
-                    multiple
-                    hidden
-                />
-            </Button>
+            <Header />
+            <NewPost />
         </>
     )
 }

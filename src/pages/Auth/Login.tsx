@@ -7,10 +7,10 @@ import { localStorageKeys } from '../../utils/constants';
 import { useNavigate } from "react-router-dom";
 import environment from "../../configration/environment";
 import { useForm, Controller } from "react-hook-form";
-import CustomTextField from "../../components/InputBox";
+import CustomTextField from "../../components/CustomTextField";
 import { LoginFormTypes } from "../../interfaces/FormInterface";
-import { Link } from "react-router-dom"
-import { makeStyles } from "@mui/styles"
+import { Link } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
 
 const loginFormDefault = {
     email: "",

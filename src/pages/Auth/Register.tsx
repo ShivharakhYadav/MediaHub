@@ -1,14 +1,14 @@
-import { Box, Button, Container, Grid, Paper, TextField } from "@mui/material";
+import { Box, Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
 import React, { ReactHTML, useState } from "react";
 import { RegisterService } from "../../services/authServices";
 import { useDispatch } from 'react-redux';
 import { save_user, show_Notification } from "../../store/actions/userActions";
 import { localStorageKeys } from '../../utils/constants';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import CustomTextField from "../../components/InputBox";
+import CustomTextField from "../../components/CustomTextField";
 import { RegisterFormTypes } from "../../interfaces/FormInterface";
-
+import { makeStyles } from "@mui/styles";
 
 const registerFormDefault = {
     email: "",
@@ -16,8 +16,18 @@ const registerFormDefault = {
     username: ""
 }
 
+const useStyles = makeStyles((theme: any) => ({
+    link: {
+        textDecoration: 'none',
+        color: theme?.palette?.primary?.main,
+        '&:hover': {
+            textDecoration: 'none',
+        },
+    },
+}));
 
 function Register() {
+    const classes = useStyles();
     const {
         control,
         formState: { errors },
@@ -118,6 +128,11 @@ function Register() {
                                             <CustomTextField field={field} errors={errors} />
                                         }
                                     />
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                    <Typography>Already have a account &nbsp;
+                                        <Link to="/login" className={classes.link}>Login</Link>
+                                    </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={12} xl={12}>
                                     <Button type="submit" variant="contained">Submit</Button>
