@@ -1,7 +1,8 @@
 export const API_URLS = {
     Login: "/login",
     Register: "/register",
-    RefreshToken: "/refreshToken"
+    RefreshToken: "/refreshToken",
+    newPost: "/newPost"
 }
 
 export const localStorageKeys = {

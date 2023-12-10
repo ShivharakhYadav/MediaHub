@@ -37,7 +37,7 @@ function App() {
         let test = await getUser(decoded?._id);
         console.log("test--->",test)
         if (test?.success) {
-          dispatch(save_user(test));
+          dispatch(save_user(test.data));
         }
         dispatch(showLoading(false))
         // console.log(test);

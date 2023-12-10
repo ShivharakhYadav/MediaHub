@@ -1,8 +1,9 @@
 import Axios, { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
 import { API_URLS, localStorageKeys } from '../utils/constants';
-import environment  from '../configration/environment';
+import environment from '../configration/environment';
 
 const userBaseURL = environment.baseURL + "/user";
+const postBaseURL = environment.baseURL + "/post"
 
 const userInstance = Axios.create({
     baseURL: userBaseURL
@@ -60,6 +61,17 @@ userInstance.interceptors.response.use(
 export const getUser = async (id: string): Promise<resposneType> => {
     try {
         let url = `${userBaseURL}/user/${id}`;
+        const result = await userInstance.get(url);
+        return result?.data;
+    } catch (error: any) {
+        console.error("Error get user-->", error?.data);
+        return error?.data;
+    }
+}
+
+export const uploadPost = async (body: any) => {
+    try {
+        let url = postBaseURL + API_URLS.newPost;
         const result = await userInstance.get(url);
         return result?.data;
     } catch (error: any) {

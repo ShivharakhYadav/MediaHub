@@ -22,7 +22,7 @@ const initialState: initialType = {
 }
 
 const userReducer = (state: initialType = initialState, { type, payload }: payloadType) => {
-    // console.log("type, payload", type, payload);
+    console.log("type, payload", type, payload);
     switch (type) {
         case providersConstant.SAVE_USER:
             let saveUser: initialType = {

@@ -9,6 +9,8 @@ import { Navigation } from 'swiper/modules';
 import { useSelector } from 'react-redux';
 import './styles.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import environment from '../configration/environment';
+import { API_URLS, localStorageKeys } from '../utils/constants';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -63,11 +65,12 @@ interface newPost {
 type headerType = "Create Post" | "Adjust";
 export default function BasicModal() {
     const [headerTitle, setHeaderTitle] = useState<headerType>("Create Post");
-    const providerState = useSelector((state: any) => state?.providerReducer?.user);
+    const userState = useSelector((state: any) => state?.user);
+    console.log("userState--->", userState)
     const [open, setOpen] = useState<boolean>(true);
     const handleClose = () => setOpen(false);
     const [displayImage, setDisplayImage] = useState<Array<string>>([]);
-    const [activeScreen, setActiveScreen] = useState(3);
+    const [activeScreen, setActiveScreen] = useState(1);
     const [postBody, setPostBody] = useState<newPost>({
         files: [],
         caption: ""
@@ -93,28 +96,32 @@ export default function BasicModal() {
 
     const handleSubmit = async () => {
         try {
-            let id = providerState._id;
+            let id = userState?._id;
+            console.log("id--->", id);
             let formData = new FormData();
-
             if (postBody?.files?.length > 0) {
                 for (let i = 0; i < postBody.files.length; i++) {
                     formData.append('img', postBody.files[i])
                 }
             }
+            formData.append("caption", postBody.caption);
+            formData.append("userid", id)
+            const postBaseURL = environment.baseURL + "/post";
+            let url = postBaseURL + API_URLS.newPost;
 
-            for (const [key, value] of Object.entries(postBody)) {
-                if (typeof (value) == "string") {
-                    formData.append(key, postBody?.caption);
+            const token = localStorage.getItem(localStorageKeys.mediaHub_AccessToken);
+            let response = await fetch(url, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Authorization": `Bearer ${token}`
                 }
+            });
+            let result = await response.json();
+            if (result.success) {
+                handleClose();
             }
-
-            // const url = `${newPostURL}?userid=${id}&postcount={${postBody.files.length}}`;
-            // let response = await fetch(url, { method: "POST", body: formData });
-            // let result = await response.json();
-            // if (result.success) {
-            //     handleClose();
-            // }
-            // console.log('---result', result);
+            console.log('---result', result);
         } catch (err) {
             console.log('err in next', err);
         }
@@ -141,7 +148,9 @@ export default function BasicModal() {
                         </IconButton>
                         <Typography variant='h6' align='center'>{headerTitle}</Typography>
                         <Button
-                            sx={{ visibility: activeScreen === 1 ? "hidden" : "visible" }}
+                            sx={{
+                                visibility: (activeScreen === 1 || activeScreen === 3) ? "hidden" : "visible"
+                            }}
                             onClick={() => {
                                 setHeaderTitle("Create Post");
                                 setActiveScreen(3)
@@ -182,16 +191,34 @@ export default function BasicModal() {
                             }
                         </Box>
                     </Box>
-                    <Box>
-                        <TextField
-                            variant='outlined'
-                            placeholder='caption'
-                        />
-                        <Button onClick={handleSubmit}>Submit</Button>
-                    </Box>
+                    {
+                        activeScreen === 3 &&
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                // width: "100%"
+                                gap: 2,
+                                marginTop: 2
+                            }}>
+                            <TextField
+                                variant='outlined'
+                                placeholder='caption'
+                                onChange={(e: any) => {
+                                    setPostBody({ ...postBody, caption: e.target.value })
+                                }}
+                            />
+                            <Button
+                                onClick={handleSubmit}
+                                variant='contained'
+                            >Submit</Button>
+                        </Box>
+                    }
                 </Box>
             </Modal>
-        </div>
+        </div >
     );
 }
 
@@ -229,7 +256,7 @@ const convertToBase64 = (file: any) => {
 // // import { newPostURL } from '../services/Links';
 
 // function NewPost() {
-//     const providerState = useSelector((state: any) => state?.providerReducer?.user);
+//     const userState = useSelector((state: any) => state?.providerReducer?.user);
 //     const [img, setimg] = useState([]);
 //     const [imgsend, setImgSend] = useState()
 //     const arr: any = [];
@@ -244,7 +271,7 @@ const convertToBase64 = (file: any) => {
 //     }
 
 //     const addPost = async () => {
-//         let id = providerState._id;
+//         let id = userState._id;
 //         let data: any = new FormData();
 
 //         data.append("img", imgsend);
