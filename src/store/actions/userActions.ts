@@ -6,7 +6,7 @@ export const save_user = (payload: any) => ({
 })
 
 export const show_Notification = (payload: any) => ({
-    type: providersConstant.Notification,
+    type: providersConstant.NOTIFICATION,
     payload: payload
 })
 

@@ -37,7 +37,7 @@ const userReducer = (state: initialType = initialState, { type, payload }: paylo
             let logoutUser: initialType = initialState;
             return state = logoutUser;
 
-        case providersConstant.Notification:
+        case providersConstant.NOTIFICATION:
             let message: initialType = { ...state, notificationMessage: payload };
             return state = message;
 

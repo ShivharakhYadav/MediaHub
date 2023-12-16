@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import Modal from '@mui/material/Modal';
 import { Box, Button, Divider, IconButton, TextField, Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import './styles.css';
 import { Navigation } from 'swiper/modules';
 import { useSelector } from 'react-redux';
-import './styles.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import environment from '../configration/environment';
 import { API_URLS, localStorageKeys } from '../utils/constants';
+import { show_Notification } from '../store/actions/userActions';
+import { showErrorMessage, showSuccessMessage } from '../utils/HelperFunction';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -32,45 +35,19 @@ const style = {
     outline: 0
 };
 
-// const breakpoints = {
-//     320: {
-//         slidesPerView: 1,
-//         spaceBetween: 0,
-//     },
-//     480: {
-//         slidesPerView: 1,
-//         spaceBetween: 0,
-//     },
-//     640: {
-//         slidesPerView: 1,
-//         spaceBetween: 0,
-//     },
-//     992: {
-//         slidesPerView: 1,
-//         spaceBetween: 0,
-//     },
-//     1200: {
-//         slidesPerView: 1,
-//         spaceBetween: 0,
-//     },
-// };
-
-
-
 interface newPost {
     files: Array<Blob>,
     caption: string
 }
 
 type headerType = "Create Post" | "Adjust";
-export default function BasicModal() {
+export default function NewPost({ open, setOpen }: { open?: boolean, setOpen?: any }) {
+    const dispatch = useDispatch();
     const [headerTitle, setHeaderTitle] = useState<headerType>("Create Post");
     const userState = useSelector((state: any) => state?.user);
-    console.log("userState--->", userState)
-    const [open, setOpen] = useState<boolean>(true);
     const handleClose = () => setOpen(false);
     const [displayImage, setDisplayImage] = useState<Array<string>>([]);
-    const [activeScreen, setActiveScreen] = useState(1);
+    const [activeScreen, setActiveScreen] = useState<number>(1);
     const [postBody, setPostBody] = useState<newPost>({
         files: [],
         caption: ""
@@ -97,15 +74,17 @@ export default function BasicModal() {
     const handleSubmit = async () => {
         try {
             let id = userState?._id;
-            console.log("id--->", id);
             let formData = new FormData();
+
+            formData.append("caption", postBody.caption);
+            formData.append("userid", id)
+
             if (postBody?.files?.length > 0) {
                 for (let i = 0; i < postBody.files.length; i++) {
                     formData.append('img', postBody.files[i])
                 }
             }
-            formData.append("caption", postBody.caption);
-            formData.append("userid", id)
+
             const postBaseURL = environment.baseURL + "/post";
             let url = postBaseURL + API_URLS.newPost;
 
@@ -119,7 +98,13 @@ export default function BasicModal() {
             });
             let result = await response.json();
             if (result.success) {
+                // dispatch(show_Notification("Post Uploaded"));
+                showSuccessMessage("Post Uploaded")
                 handleClose();
+            }
+            else {
+                // dispatch(show_Notification(result?.message));
+                showErrorMessage(result?.message)
             }
             console.log('---result', result);
         } catch (err) {
@@ -130,7 +115,7 @@ export default function BasicModal() {
     return (
         <div>
             <Modal
-                open={true}
+                open={open as boolean}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -161,7 +146,7 @@ export default function BasicModal() {
                     <Divider sx={{ backgroundColor: "black" }} />
                     <Box>
                         {
-                            activeScreen == 1 &&
+                            activeScreen === 1 &&
                             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <Button
                                     variant="contained"
@@ -180,7 +165,7 @@ export default function BasicModal() {
                         }
                         <Box>
                             {
-                                activeScreen == 2 && <>
+                                activeScreen === 2 && <>
                                     {
                                         (displayImage?.length > 0 && displayImage) && <div>
                                             {DisplayDomImage(displayImage, postBody.files)}

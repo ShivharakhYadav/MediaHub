@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { AddAPhoto as AddPhotoIcon } from '@mui/icons-material/';
 import { Tooltip } from '@mui/material';
+import NewPost from '../pages/NewPost';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -197,7 +198,7 @@ export default function Header() {
                                 <AddPhotoIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Notification" arrow>
+                        <Tooltip title="NOTIFICATION" arrow>
                             <IconButton
                                 size="large"
                                 aria-label="show 17 new notifications"
@@ -237,6 +238,7 @@ export default function Header() {
                     </Box>
                 </Toolbar>
             </AppBar>
+            <NewPost open={openModel} setOpen={setOpenModel} />
             {renderMobileMenu}
             {renderMenu}
         </Box>

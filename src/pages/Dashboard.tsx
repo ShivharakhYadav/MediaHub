@@ -17,7 +17,7 @@ function Dashboard() {
     return (
         <>
             <Header />
-            <NewPost />
+            {/* <NewPost /> */}
         </>
     )
 }
