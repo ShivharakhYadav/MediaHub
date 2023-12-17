@@ -15,6 +15,7 @@ import { jwtDecode } from 'jwt-decode';
 import Loading from './components/Loading';
 import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
+import SingleUserProfile from './components/SingleUserProfile';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -59,6 +60,7 @@ function App() {
         <Route path="*" element={<NoPage />} /> */}
 
         <Route path='/' element={<AuthGuard component={<Dashboard />} />} />
+        <Route path='/profile' element={<AuthGuard component={<SingleUserProfile />} />} />
         <Route path='*' element={<h1>Page Not Found</h1>} />
 
       </Routes>

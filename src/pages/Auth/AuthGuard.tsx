@@ -8,10 +8,10 @@ const AuthGuard = ({ component }: { component: any }) => {
 
   const navigate = useNavigate();
   const pathName = window.location.pathname;
-
+  console.log("pathname", pathName)
   useEffect(() => {
     if (isAuthenticated) {
-      pathName === '/login' && navigate('/');
+      pathName === '/login' && navigate('/')
     } else {
       if (pathName === "/register") {
         navigate('/register');
